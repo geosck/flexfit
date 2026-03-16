@@ -78,8 +78,6 @@
       border-radius: 5%;
     }
 
-    /* REMOVED .program-title section entirely */
-
     .phase-tabs {
       display: flex;
       gap: 8px;
@@ -313,8 +311,6 @@
       <iframe id="videoIframe" src="" allowfullscreen></iframe>
     </div>
 
-    <!-- "HomeFit Full body program" TITLE REMOVED as requested -->
-
     <!-- LAST COMPLETED TRACKER -->
     <div class="last-completed" id="lastCompletedTracker">
       <i class="fas fa-calendar-check"></i>
@@ -343,34 +339,56 @@
 
   <script>
     (function() {
-      // ---------- WORKING VIDEO LINKS ----------
+      // ---------- WORKING VIDEO LINKS - FIXED WITH EXACT MATCHES ----------
       const exerciseVideos = {
+        // Foundation / Day A exercises
         "Goblet Squat": "https://www.youtube.com/embed/UsRx7HcJhZA",
         "Dumbbell Floor Press": "https://www.youtube.com/embed/cgPq2iA4hrg",
         "Resistance Band Row": "https://www.youtube.com/embed/9Q4pUwF66-w",
         "Dumbbell Romanian Deadlift": "https://www.youtube.com/embed/_T3Lg38AK3Q",
         "Dumbbell Shoulder Press": "https://www.youtube.com/embed/qE1K2eWlfrk",
         "Plank": "https://www.youtube.com/embed/2UyhqHmZApQ",
+        
+        // Day B exercises
         "Reverse Lunges": "https://www.youtube.com/embed/rJcnjJ4h1gQ",
         "Push-ups": "https://www.youtube.com/embed/_l3ySVKYVJ8",
         "One-Arm Dumbbell Row": "https://www.youtube.com/embed/UEpS7cF2Z4A",
         "Glute Bridge": "https://www.youtube.com/embed/FsVlM8Fzpk8",
         "Dumbbell Biceps Curl": "https://www.youtube.com/embed/av7-8igSXTs",
         "Dead Bug": "https://www.youtube.com/embed/WJzGkwZ4eHc",
+        
+        // Day C exercises
         "Dumbbell Deadlift": "https://www.youtube.com/embed/5TlH2VzXwKQ",
         "Resistance Band Chest Press": "https://www.youtube.com/embed/lB6QQJ7a7qE",
         "Band Lat Pulldown": "https://www.youtube.com/embed/l8GfNc5923s",
         "Dumbbell Lateral Raise": "https://www.youtube.com/embed/3VcKaXpzqRo",
         "Triceps Kickbacks": "https://www.youtube.com/embed/hjwH1pYyKYU",
         "Russian Twist": "https://www.youtube.com/embed/wkD8rjkodUI",
+        
+        // STRENGTH PHASE - exact matches
+        "Dumbbell Press": "https://www.youtube.com/embed/cgPq2iA4hrg",  // For Strength Day A
+        "Band Row": "https://www.youtube.com/embed/9Q4pUwF66-w",        // For Strength Day A
+        "Shoulder Press": "https://www.youtube.com/embed/qE1K2eWlfrk",  // For Strength Day A
+        "One-Arm Row": "https://www.youtube.com/embed/UEpS7cF2Z4A",     // For Strength Day B
+        "Dumbbell Curl": "https://www.youtube.com/embed/av7-8igSXTs",   // For Strength Day B
+        "Lateral Raise": "https://www.youtube.com/embed/3VcKaXpzqRo",   // For Strength Day C
+        "Triceps Kickback": "https://www.youtube.com/embed/hjwH1pYyKYU", // For Strength Day C
+        "Band Chest Press": "https://www.youtube.com/embed/lB6QQJ7a7qE", // For Strength Day C
+        
+        // HYPERTROPHY PHASE - ADDED THESE SPECIFICALLY
+        // Superset 1 exercises
+        "Dumbbell Press (Superset 1)": "https://www.youtube.com/embed/cgPq2iA4hrg",
+        "Goblet Squat (Superset 1)": "https://www.youtube.com/embed/UsRx7HcJhZA",
+        
+        // Superset 2 exercises
+        "Band Row (Superset 2)": "https://www.youtube.com/embed/9Q4pUwF66-w",
+        "Dumbbell Romanian Deadlift (Superset 2)": "https://www.youtube.com/embed/_T3Lg38AK3Q",
+        
+        // Also add the base names as fallback
+        "Goblet Squat": "https://www.youtube.com/embed/UsRx7HcJhZA",
         "Dumbbell Press": "https://www.youtube.com/embed/cgPq2iA4hrg",
         "Band Row": "https://www.youtube.com/embed/9Q4pUwF66-w",
-        "Shoulder Press": "https://www.youtube.com/embed/qE1K2eWlfrk",
-        "One-Arm Row": "https://www.youtube.com/embed/UEpS7cF2Z4A",
-        "Dumbbell Curl": "https://www.youtube.com/embed/av7-8igSXTs",
-        "Lateral Raise": "https://www.youtube.com/embed/3VcKaXpzqRo",
-        "Triceps Kickback": "https://www.youtube.com/embed/hjwH1pYyKYU",
-        "Band Chest Press": "https://www.youtube.com/embed/lB6QQJ7a7qE"
+        "Dumbbell Romanian Deadlift": "https://www.youtube.com/embed/_T3Lg38AK3Q"
       };
 
       // ---------- FULL PROGRAM ----------
@@ -434,12 +452,12 @@
           A: {
             supersets: [
               { label: "Superset 1", exercises: [
-                { name: "Goblet Squat", sets: "4", reps: "8" },
-                { name: "Dumbbell Press", sets: "4", reps: "8" }
+                { name: "Goblet Squat (Superset 1)", sets: "4", reps: "8" },
+                { name: "Dumbbell Press (Superset 1)", sets: "4", reps: "8" }
               ]},
               { label: "Superset 2", exercises: [
-                { name: "Band Row", sets: "4", reps: "10" },
-                { name: "Dumbbell Romanian Deadlift", sets: "4", reps: "10" }
+                { name: "Band Row (Superset 2)", sets: "4", reps: "10" },
+                { name: "Dumbbell Romanian Deadlift (Superset 2)", sets: "4", reps: "10" }
               ]}
             ],
             singles: [
@@ -450,8 +468,8 @@
           B: {
             supersets: [
               { label: "Superset 1", exercises: [
-                { name: "Reverse Lunges", sets: "4", reps: "8 / leg" },
-                { name: "Push-ups", sets: "4", reps: "12" }
+                { name: "Reverse Lunges (Superset 1)", sets: "4", reps: "8 / leg" },
+                { name: "Push-ups (Superset 1)", sets: "4", reps: "12" }
               ]}
             ],
             singles: [
@@ -463,8 +481,8 @@
           C: {
             supersets: [
               { label: "Superset 1", exercises: [
-                { name: "Dumbbell Deadlift", sets: "4", reps: "8" },
-                { name: "Band Chest Press", sets: "4", reps: "10" }
+                { name: "Dumbbell Deadlift (Superset 1)", sets: "4", reps: "8" },
+                { name: "Band Chest Press (Superset 1)", sets: "4", reps: "10" }
               ]}
             ],
             singles: [
@@ -568,14 +586,15 @@
             `;
           });
         } else {
+          // Handle hypertrophy with supersets
           if (dayData.supersets) {
-            dayData.supersets.forEach(group => {
-              group.exercises.forEach((ex, idx) => {
-                const rowId = `row-${currentPhase}-${currentDay}-hyper-${idx}`;
+            dayData.supersets.forEach((group, groupIdx) => {
+              group.exercises.forEach((ex, exIdx) => {
+                const rowId = `row-${currentPhase}-${currentDay}-hyper-${groupIdx}-${exIdx}`;
                 htmlStr += `
-                  <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}" data-index="hyper-${idx}">
+                  <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}" data-index="hyper-${groupIdx}-${exIdx}">
                     <div class="exercise-info">
-                      <span class="exercise-name">${ex.name} (${group.label})</span>
+                      <span class="exercise-name">${ex.name}</span>
                       <span class="exercise-sets">${formatSetsReps(ex)}</span>
                     </div>
                     <button class="play-button" data-exercise="${ex.name}" data-row="${rowId}">
@@ -613,7 +632,16 @@
             e.stopPropagation();
             const exName = btn.dataset.exercise;
             const rowId = btn.dataset.row;
-            const url = exerciseVideos[exName];
+            
+            // Try to get video URL - first with exact name, then try base name
+            let url = exerciseVideos[exName];
+            
+            // If no exact match, try to extract base name (remove Superset X)
+            if (!url && exName.includes('(')) {
+              const baseName = exName.split('(')[0].trim();
+              url = exerciseVideos[baseName];
+              console.log(`Trying base name: ${baseName} for ${exName}`);
+            }
             
             const row = document.querySelector(`[data-row-id="${rowId}"]`);
             if (row) {
@@ -626,7 +654,8 @@
               videoEmbed.style.display = 'block';
               videoIframe.src = url;
             } else {
-              alert('Video not available');
+              alert(`Video not available for ${exName}`);
+              console.log('Missing video for:', exName);
             }
           });
         });
@@ -699,7 +728,7 @@
           
           completedBtn.style.backgroundColor = '#222';
           setTimeout(() => completedBtn.style.backgroundColor = '#000', 150);
-          alert('Please click the play button on each exercise before completing the workout.');
+          alert(`Please click the play button on each exercise before completing the workout. (${clickedExercises.size}/${totalExercises} completed)`);
         }
       });
 
