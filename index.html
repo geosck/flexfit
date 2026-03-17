@@ -8,224 +8,283 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.4.0/tsparticles.confetti.bundle.min.js"></script>
   <style>
-    /* ---------- EXACT SCREENSHOT VISUALS ---------- */
+    /* ===== TWO-COLOR SYSTEM – NO BORDERS, ALL RADIUS ≤ 2% ===== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
 
+    :root {
+      /* Dark mode (default) */
+      --bg-primary: #151719;
+      --bg-secondary: #1a1e24;
+      --bg-tertiary: #2d333b;
+      --text-primary: #e4e6eb;
+      --text-secondary: #9aa1b0;
+      --text-muted: #6b7280;
+      --border-color: transparent;
+      --accent-color: #e4e6eb;
+      --accent-hover: #ffffff;
+      --shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
+      --button-text: #0a0c10;
+      --card-bg: transparent;
+      --placeholder-bg: #2d333b;
+      --play-btn-bg: #2d333b;
+      --play-btn-color: #e4e6eb;
+      --completed-btn-bg: #e4e6eb;
+      --completed-btn-text: #0a0c10;
+    }
+
+    body.light-mode {
+      --bg-primary: #f5f7fa;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #e9eef3;
+      --text-primary: #1a1e24;
+      --text-secondary: #4a5568;
+      --text-muted: #64748b;
+      --border-color: transparent;
+      --accent-color: #4a5568;
+      --accent-hover: #1a1e24;
+      --shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+      --button-text: #ffffff;
+      --card-bg: transparent;
+      --placeholder-bg: #e9eef3;
+      --play-btn-bg: #e9eef3;
+      --play-btn-color: #1a1e24;
+      --completed-btn-bg: #1a1e24;
+      --completed-btn-text: #ffffff;
+    }
+
     body {
-      background-color: #ffffff;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      transition: background-color 0.3s, color 0.3s;
+      min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 16px;
-      color: #000000;
+      padding: 24px;
     }
 
+    /* MAIN CARD – NO BACKGROUND, WIDER */
     .workout-card {
-      max-width: 560px;
+      max-width: 900px;
       width: 100%;
-      background: #ffffff;
-      padding: 20px 20px 28px 20px;
+      padding: 32px 32px 40px 32px;
     }
 
+    /* header */
     .workout-header {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 28px;
     }
 
     .brand-icon {
       background: transparent;
-      font-size: 30px;
+      font-size: 36px;
       line-height: 1;
-      color: #000000;
+      color: var(--text-primary);
     }
 
     .brand-text h2 {
-      font-size: 1.7rem;
+      font-size: 2rem;
       font-weight: 600;
       letter-spacing: -0.2px;
-      color: #000000;
+      color: var(--text-primary);
     }
 
     .brand-text p {
-      font-size: 0.75rem;
-      color: #6d6d6d;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      margin-top: 2px;
+      margin-top: 4px;
     }
 
+    /* video placeholder – 2% radius */
     .video-placeholder {
-      background-color: #eaeef3;
+      background-color: var(--placeholder-bg);
       width: 100%;
       aspect-ratio: 16 / 9;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #4a4a4a;
-      font-size: 1rem;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
       font-weight: 500;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
-      border-radius: 5%;
+      border-radius: 2%;                    /* ≤ 2% */
+      border: none;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
 
+    /* phase tabs */
     .phase-tabs {
       display: flex;
-      gap: 8px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #e0e0e0;
-      padding-bottom: 8px;
+      gap: 12px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid transparent;
+      padding-bottom: 10px;
     }
 
     .phase-tab {
       background: transparent;
       border: none;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 500;
-      color: #5e5e5e;
-      padding: 4px 0;
+      color: var(--text-secondary);
+      padding: 6px 0;
       cursor: pointer;
       border-bottom: 2px solid transparent;
       transition: 0.1s;
     }
 
+    .phase-tab:hover {
+      color: var(--accent-hover);
+    }
+
     .phase-tab.active {
-      color: #000000;
-      border-bottom: 2px solid #000000;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--accent-hover);
       font-weight: 600;
     }
 
+    /* day row */
     .day-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 24px;
     }
 
     .day-switcher {
       display: flex;
-      gap: 15px;
+      gap: 20px;
     }
 
     .day-btn {
       background: transparent;
       border: none;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 500;
-      color: #5e5e5e;
+      color: var(--text-secondary);
       cursor: pointer;
-      padding: 4px 0;
+      padding: 6px 0;
       border-bottom: 2px solid transparent;
+      transition: 0.1s;
+    }
+
+    .day-btn:hover {
+      color: var(--accent-hover);
     }
 
     .day-btn.active {
-      color: #000000;
-      border-bottom: 2px solid #000000;
+      color: var(--text-primary);
+      border-bottom: 2px solid var(--accent-hover);
       font-weight: 600;
     }
 
+    /* repeat button – circular (50% radius, not changed) */
     .repeat-btn {
-      background: #f0f2f5;
+      background: var(--play-btn-bg);
       border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;                   /* keep circular */
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #1e2b3a;
-      font-size: 1.2rem;
+      color: var(--play-btn-color);
+      font-size: 1.3rem;
       transition: all 0.15s ease;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .repeat-btn:hover {
-      background: #e2e6ec;
+      background: var(--bg-tertiary);
       transform: scale(1.03);
-      color: #000000;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: var(--accent-hover);
     }
 
-    /* Last completed tracker */
+    /* Last completed tracker – 2% radius */
     .last-completed {
-      background: #f8f9fa;
-      border: 1px solid #eaeef3;
-      border-radius: 40px;
-      padding: 10px 16px;
-      margin-bottom: 18px;
-      font-size: 0.9rem;
-      color: #2e4b6b;
+      background: var(--bg-tertiary);
+      border: none;
+      border-radius: 2%;                    /* ≤ 2% */
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      font-size: 1rem;
+      color: var(--text-secondary);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
     }
     
     .last-completed i {
       color: #4CAF50;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
     }
     
     .last-completed span {
       font-weight: 600;
-      color: #000000;
+      color: var(--text-primary);
     }
 
+    /* exercise list */
     .exercise-list {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 32px;
     }
 
     .exercise-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 4px 0;
+      padding: 6px 0;
     }
 
     .exercise-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 16px;
     }
 
     .exercise-name {
       font-weight: 500;
-      color: #000000;
-      font-size: 1rem;
+      color: var(--text-primary);
+      font-size: 1.05rem;
     }
 
     .exercise-sets {
-      font-size: 0.85rem;
-      color: #5e5e5e;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
       background: transparent;
       padding: 0;
       font-weight: 400;
     }
 
+    /* play button – circular (50% radius) */
     .play-button {
-      background: #f0f2f5;
+      background: var(--play-btn-bg);
       border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;                   /* keep circular */
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      color: #1e2b3a;
-      font-size: 1.2rem;
+      color: var(--play-btn-color);
+      font-size: 1.3rem;
       transition: all 0.15s ease;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
@@ -235,31 +294,30 @@
     }
 
     .play-button:hover {
-      background: #e2e6ec;
+      background: var(--bg-tertiary);
       transform: scale(1.03);
-      color: #000000;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: var(--accent-hover);
     }
 
     .exercise-row.clicked .play-button {
-      background: #d0e0ff;
-      color: #004e9e;
-      border: 1px solid #a0c0ff;
+      background: #2d4b6e;
+      color: #ffffff;
     }
 
+    /* completed button – 2% radius */
     .completed-btn {
-      background-color: #000000;
-      color: #ffffff;
+      background-color: var(--completed-btn-bg);
+      color: var(--completed-btn-text);
       border: none;
-      width: 60%;
+      width: 70%;
       display: block;
       margin: 0 auto;
-      padding: 18px 0;
-      font-size: 1.3rem;
+      padding: 20px 0;
+      font-size: 1.4rem;
       font-weight: 500;
       cursor: pointer;
-      margin-top: 8px;
-      border-radius: 5%;
+      margin-top: 16px;
+      border-radius: 2%;                    /* ≤ 2% */
       text-transform: none;
       transition: background-color 0.15s, transform 0.1s;
     }
@@ -269,16 +327,18 @@
     }
 
     .completed-btn:hover {
-      background-color: #222222;
+      background-color: var(--accent-hover);
+      color: var(--bg-primary);
     }
 
+    /* video embed container – 2% radius */
     .video-embed-container {
-      background-color: #eaeef3;
+      background-color: var(--placeholder-bg);
       width: 100%;
       aspect-ratio: 16 / 9;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       display: none;
-      border-radius: 5%;
+      border-radius: 2%;                    /* ≤ 2% */
     }
 
     .video-embed-container iframe {
@@ -286,16 +346,87 @@
       height: 100%;
       border: none;
       display: block;
-      border-radius: 5%;
+      border-radius: 2%;                    /* ≤ 2% */
+    }
+
+    /* Theme toggle button – circular (50% radius) */
+    .theme-toggle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .theme-toggle {
+      background: var(--bg-tertiary);
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      padding: 0.25rem;
+      border-radius: 50%;                   /* keep circular */
+      width: 48px;
+      height: 48px;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+
+    .theme-toggle:hover {
+      background-color: var(--bg-secondary);
+      color: var(--accent-hover);
     }
 
     .hidden {
       display: none !important;
     }
+
+    /* responsive adjustments */
+    @media (max-width: 600px) {
+      body {
+        padding: 16px;
+      }
+      
+      .workout-card {
+        padding: 24px 20px 32px 20px;
+      }
+      
+      .brand-text h2 {
+        font-size: 1.8rem;
+      }
+      
+      .phase-tab {
+        font-size: 0.9rem;
+      }
+      
+      .day-btn {
+        font-size: 1rem;
+      }
+      
+      .exercise-name {
+        font-size: 1rem;
+      }
+      
+      .completed-btn {
+        width: 85%;
+        padding: 16px 0;
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="workout-card">
+    <!-- Theme toggle -->
+    <div class="theme-toggle-wrapper">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+        <i class="fas fa-moon" id="darkIcon"></i>
+        <i class="fas fa-sun" id="lightIcon" style="display: none;"></i>
+      </button>
+    </div>
+
+    <!-- header -->
     <div class="workout-header">
       <div class="brand-icon">🏠</div>
       <div class="brand-text">
@@ -304,6 +435,7 @@
       </div>
     </div>
 
+    <!-- video area -->
     <div class="video-placeholder" id="mainVideoPlaceholder">
       DISPLAY VIDEO HERE
     </div>
@@ -317,12 +449,14 @@
       <div>Last completed: <span id="lastCompletedDate">Not yet completed</span></div>
     </div>
 
+    <!-- phase tabs -->
     <div class="phase-tabs" id="phaseTabs">
       <button class="phase-tab active" data-phase="foundation">Foundation</button>
       <button class="phase-tab" data-phase="strength">Strength</button>
       <button class="phase-tab" data-phase="hypertrophy">Hypertrophy</button>
     </div>
 
+    <!-- day switcher + repeat -->
     <div class="day-row">
       <div class="day-switcher" id="daySwitcher">
         <button class="day-btn active" data-day="A">Day A</button>
@@ -332,63 +466,51 @@
       <button class="repeat-btn" id="repeatBtn" title="Repeat current phase"><i class="fas fa-undo-alt"></i></button>
     </div>
 
+    <!-- exercise container -->
     <div class="exercise-list" id="exerciseList"></div>
 
+    <!-- completed button -->
     <button class="completed-btn" id="completedBtn">Completed</button>
   </div>
 
   <script>
     (function() {
-      // ---------- WORKING VIDEO LINKS - FIXED WITH EXACT MATCHES ----------
+      // ---------- WORKING VIDEO LINKS ----------
       const exerciseVideos = {
-        // Foundation / Day A exercises
         "Goblet Squat": "https://www.youtube.com/embed/UsRx7HcJhZA",
         "Dumbbell Floor Press": "https://www.youtube.com/embed/cgPq2iA4hrg",
         "Resistance Band Row": "https://www.youtube.com/embed/9Q4pUwF66-w",
         "Dumbbell Romanian Deadlift": "https://www.youtube.com/embed/_T3Lg38AK3Q",
         "Dumbbell Shoulder Press": "https://www.youtube.com/embed/qE1K2eWlfrk",
         "Plank": "https://www.youtube.com/embed/2UyhqHmZApQ",
-        
-        // Day B exercises
         "Reverse Lunges": "https://www.youtube.com/embed/rJcnjJ4h1gQ",
         "Push-ups": "https://www.youtube.com/embed/_l3ySVKYVJ8",
         "One-Arm Dumbbell Row": "https://www.youtube.com/embed/UEpS7cF2Z4A",
         "Glute Bridge": "https://www.youtube.com/embed/FsVlM8Fzpk8",
         "Dumbbell Biceps Curl": "https://www.youtube.com/embed/av7-8igSXTs",
         "Dead Bug": "https://www.youtube.com/embed/WJzGkwZ4eHc",
-        
-        // Day C exercises
         "Dumbbell Deadlift": "https://www.youtube.com/embed/5TlH2VzXwKQ",
         "Resistance Band Chest Press": "https://www.youtube.com/embed/lB6QQJ7a7qE",
         "Band Lat Pulldown": "https://www.youtube.com/embed/l8GfNc5923s",
         "Dumbbell Lateral Raise": "https://www.youtube.com/embed/3VcKaXpzqRo",
         "Triceps Kickbacks": "https://www.youtube.com/embed/hjwH1pYyKYU",
         "Russian Twist": "https://www.youtube.com/embed/wkD8rjkodUI",
-        
-        // STRENGTH PHASE - exact matches
-        "Dumbbell Press": "https://www.youtube.com/embed/cgPq2iA4hrg",  // For Strength Day A
-        "Band Row": "https://www.youtube.com/embed/9Q4pUwF66-w",        // For Strength Day A
-        "Shoulder Press": "https://www.youtube.com/embed/qE1K2eWlfrk",  // For Strength Day A
-        "One-Arm Row": "https://www.youtube.com/embed/UEpS7cF2Z4A",     // For Strength Day B
-        "Dumbbell Curl": "https://www.youtube.com/embed/av7-8igSXTs",   // For Strength Day B
-        "Lateral Raise": "https://www.youtube.com/embed/3VcKaXpzqRo",   // For Strength Day C
-        "Triceps Kickback": "https://www.youtube.com/embed/hjwH1pYyKYU", // For Strength Day C
-        "Band Chest Press": "https://www.youtube.com/embed/lB6QQJ7a7qE", // For Strength Day C
-        
-        // HYPERTROPHY PHASE - ADDED THESE SPECIFICALLY
-        // Superset 1 exercises
-        "Dumbbell Press (Superset 1)": "https://www.youtube.com/embed/cgPq2iA4hrg",
-        "Goblet Squat (Superset 1)": "https://www.youtube.com/embed/UsRx7HcJhZA",
-        
-        // Superset 2 exercises
-        "Band Row (Superset 2)": "https://www.youtube.com/embed/9Q4pUwF66-w",
-        "Dumbbell Romanian Deadlift (Superset 2)": "https://www.youtube.com/embed/_T3Lg38AK3Q",
-        
-        // Also add the base names as fallback
-        "Goblet Squat": "https://www.youtube.com/embed/UsRx7HcJhZA",
         "Dumbbell Press": "https://www.youtube.com/embed/cgPq2iA4hrg",
         "Band Row": "https://www.youtube.com/embed/9Q4pUwF66-w",
-        "Dumbbell Romanian Deadlift": "https://www.youtube.com/embed/_T3Lg38AK3Q"
+        "Shoulder Press": "https://www.youtube.com/embed/qE1K2eWlfrk",
+        "One-Arm Row": "https://www.youtube.com/embed/UEpS7cF2Z4A",
+        "Dumbbell Curl": "https://www.youtube.com/embed/av7-8igSXTs",
+        "Lateral Raise": "https://www.youtube.com/embed/3VcKaXpzqRo",
+        "Triceps Kickback": "https://www.youtube.com/embed/hjwH1pYyKYU",
+        "Band Chest Press": "https://www.youtube.com/embed/lB6QQJ7a7qE",
+        "Goblet Squat (Superset 1)": "https://www.youtube.com/embed/UsRx7HcJhZA",
+        "Dumbbell Press (Superset 1)": "https://www.youtube.com/embed/cgPq2iA4hrg",
+        "Band Row (Superset 2)": "https://www.youtube.com/embed/9Q4pUwF66-w",
+        "Dumbbell Romanian Deadlift (Superset 2)": "https://www.youtube.com/embed/_T3Lg38AK3Q",
+        "Reverse Lunges (Superset 1)": "https://www.youtube.com/embed/rJcnjJ4h1gQ",
+        "Push-ups (Superset 1)": "https://www.youtube.com/embed/_l3ySVKYVJ8",
+        "Dumbbell Deadlift (Superset 1)": "https://www.youtube.com/embed/5TlH2VzXwKQ",
+        "Band Chest Press (Superset 1)": "https://www.youtube.com/embed/lB6QQJ7a7qE"
       };
 
       // ---------- FULL PROGRAM ----------
@@ -505,6 +627,17 @@
       const videoIframe = document.getElementById('videoIframe');
       const completedBtn = document.getElementById('completedBtn');
       const lastCompletedSpan = document.getElementById('lastCompletedDate');
+      const themeToggle = document.getElementById('themeToggle');
+      const darkIcon = document.getElementById('darkIcon');
+      const lightIcon = document.getElementById('lightIcon');
+
+      // Theme toggle
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        darkIcon.style.display = isLight ? 'none' : 'inline';
+        lightIcon.style.display = isLight ? 'inline' : 'none';
+      });
 
       let currentPhase = 'foundation';
       let currentDay = 'A';
@@ -513,50 +646,22 @@
       function updateLastCompletedDisplay() {
         const key = `lastCompleted_${currentPhase}_${currentDay}`;
         const saved = localStorage.getItem(key);
-        if (saved) {
-          lastCompletedSpan.textContent = saved;
-        } else {
-          lastCompletedSpan.textContent = 'Not yet completed';
-        }
+        lastCompletedSpan.textContent = saved || 'Not yet completed';
       }
 
       function triggerCelebration() {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-          colors: ['#FF6B6B', '#4ECDC4', '#FFD93D', '#6BCB77', '#9B59B6']
-        });
-        
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#FF6B6B', '#4ECDC4', '#FFD93D', '#6BCB77', '#9B59B6'] });
         setTimeout(() => {
-          confetti({
-            particleCount: 50,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
-            colors: ['#FF8C42', '#FFE66D', '#4ECDC4']
-          });
-          confetti({
-            particleCount: 50,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
-            colors: ['#FF8C42', '#FFE66D', '#4ECDC4']
-          });
+          confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#FF8C42', '#FFE66D', '#4ECDC4'] });
+          confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#FF8C42', '#FFE66D', '#4ECDC4'] });
         }, 150);
         
         const now = new Date();
         const formatted = now.toLocaleDateString('en-US', { 
-          weekday: 'short', 
-          year: 'numeric', 
-          month: 'short', 
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
+          weekday: 'short', year: 'numeric', month: 'short', day: 'numeric',
+          hour: '2-digit', minute: '2-digit'
         });
-        
-        const key = `lastCompleted_${currentPhase}_${currentDay}`;
-        localStorage.setItem(key, formatted);
+        localStorage.setItem(`lastCompleted_${currentPhase}_${currentDay}`, formatted);
         updateLastCompletedDisplay();
       }
 
@@ -567,39 +672,33 @@
       function renderExercises() {
         const phaseData = program[currentPhase];
         const dayData = phaseData[currentDay];
-
         let htmlStr = '';
 
         if (currentPhase !== 'hypertrophy') {
           dayData.forEach((ex, idx) => {
             const rowId = `row-${currentPhase}-${currentDay}-${idx}`;
             htmlStr += `
-              <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}" data-index="${idx}">
+              <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}">
                 <div class="exercise-info">
                   <span class="exercise-name">${ex.name}</span>
                   <span class="exercise-sets">${formatSetsReps(ex)}</span>
                 </div>
-                <button class="play-button" data-exercise="${ex.name}" data-row="${rowId}">
-                  <i class="fas fa-play"></i>
-                </button>
+                <button class="play-button" data-exercise="${ex.name}" data-row="${rowId}"><i class="fas fa-play"></i></button>
               </div>
             `;
           });
         } else {
-          // Handle hypertrophy with supersets
           if (dayData.supersets) {
-            dayData.supersets.forEach((group, groupIdx) => {
-              group.exercises.forEach((ex, exIdx) => {
-                const rowId = `row-${currentPhase}-${currentDay}-hyper-${groupIdx}-${exIdx}`;
+            dayData.supersets.forEach((group, gIdx) => {
+              group.exercises.forEach((ex, eIdx) => {
+                const rowId = `row-${currentPhase}-${currentDay}-hyper-${gIdx}-${eIdx}`;
                 htmlStr += `
-                  <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}" data-index="hyper-${groupIdx}-${exIdx}">
+                  <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}">
                     <div class="exercise-info">
                       <span class="exercise-name">${ex.name}</span>
                       <span class="exercise-sets">${formatSetsReps(ex)}</span>
                     </div>
-                    <button class="play-button" data-exercise="${ex.name}" data-row="${rowId}">
-                      <i class="fas fa-play"></i>
-                    </button>
+                    <button class="play-button" data-exercise="${ex.name}" data-row="${rowId}"><i class="fas fa-play"></i></button>
                   </div>
                 `;
               });
@@ -609,14 +708,12 @@
             dayData.singles.forEach((ex, idx) => {
               const rowId = `row-${currentPhase}-${currentDay}-single-${idx}`;
               htmlStr += `
-                <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}" data-index="single-${idx}">
+                <div class="exercise-row" data-row-id="${rowId}" data-exercise-name="${ex.name}">
                   <div class="exercise-info">
                     <span class="exercise-name">${ex.name}</span>
                     <span class="exercise-sets">${formatSetsReps(ex)}</span>
                   </div>
-                  <button class="play-button" data-exercise="${ex.name}" data-row="${rowId}">
-                    <i class="fas fa-play"></i>
-                  </button>
+                  <button class="play-button" data-exercise="${ex.name}" data-row="${rowId}"><i class="fas fa-play"></i></button>
                 </div>
               `;
             });
@@ -632,35 +729,23 @@
             e.stopPropagation();
             const exName = btn.dataset.exercise;
             const rowId = btn.dataset.row;
-            
-            // Try to get video URL - first with exact name, then try base name
             let url = exerciseVideos[exName];
-            
-            // If no exact match, try to extract base name (remove Superset X)
             if (!url && exName.includes('(')) {
               const baseName = exName.split('(')[0].trim();
               url = exerciseVideos[baseName];
-              console.log(`Trying base name: ${baseName} for ${exName}`);
             }
-            
             const row = document.querySelector(`[data-row-id="${rowId}"]`);
-            if (row) {
-              row.classList.add('clicked');
-              clickedExercises.add(rowId);
-            }
-
+            if (row) { row.classList.add('clicked'); clickedExercises.add(rowId); }
             if (url) {
               videoPlaceholder.style.display = 'none';
               videoEmbed.style.display = 'block';
               videoIframe.src = url;
-            } else {
-              alert(`Video not available for ${exName}`);
-              console.log('Missing video for:', exName);
-            }
+            } else { alert(`No video for ${exName}`); }
           });
         });
       }
 
+      // Event listeners
       phaseTabs.forEach(tab => {
         tab.addEventListener('click', () => {
           phaseTabs.forEach(t => t.classList.remove('active'));
@@ -693,42 +778,32 @@
       });
 
       completedBtn.addEventListener('click', () => {
-        const totalExercises = document.querySelectorAll('.exercise-row').length;
-        
-        if (clickedExercises.size === totalExercises && totalExercises > 0) {
+        const total = document.querySelectorAll('.exercise-row').length;
+        if (clickedExercises.size === total && total > 0) {
           triggerCelebration();
-          
           videoPlaceholder.style.display = 'flex';
           videoEmbed.style.display = 'none';
           videoIframe.src = '';
-
           const days = ['A', 'B', 'C'];
-          let currentDayIndex = days.indexOf(currentDay);
-          let nextDayIndex = (currentDayIndex + 1) % days.length;
-          
-          if (nextDayIndex === 0) {
+          let dIdx = days.indexOf(currentDay);
+          let nextDay = (dIdx + 1) % days.length;
+          if (nextDay === 0) {
             const phases = ['foundation', 'strength', 'hypertrophy'];
-            let currentPhaseIndex = phases.indexOf(currentPhase);
-            let nextPhaseIndex = (currentPhaseIndex + 1) % phases.length;
-            
+            let pIdx = phases.indexOf(currentPhase);
+            let nextPhase = (pIdx + 1) % phases.length;
             phaseTabs.forEach(t => t.classList.remove('active'));
-            phaseTabs[nextPhaseIndex].classList.add('active');
-            currentPhase = phases[nextPhaseIndex];
+            phaseTabs[nextPhase].classList.add('active');
+            currentPhase = phases[nextPhase];
           }
-          
           dayBtns.forEach(b => b.classList.remove('active'));
-          dayBtns[nextDayIndex].classList.add('active');
-          currentDay = days[nextDayIndex];
-          
+          dayBtns[nextDay].classList.add('active');
+          currentDay = days[nextDay];
           renderExercises();
         } else {
           videoPlaceholder.style.display = 'flex';
           videoEmbed.style.display = 'none';
           videoIframe.src = '';
-          
-          completedBtn.style.backgroundColor = '#222';
-          setTimeout(() => completedBtn.style.backgroundColor = '#000', 150);
-          alert(`Please click the play button on each exercise before completing the workout. (${clickedExercises.size}/${totalExercises} completed)`);
+          alert(`Click play on each exercise (${clickedExercises.size}/${total})`);
         }
       });
 
