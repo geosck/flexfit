@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
   <title>J&G Home-Fit</title>
   <!-- Google Fonts + Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=SF+Pro+Text:wght@400;500&display=swap" rel="stylesheet">
@@ -73,26 +73,23 @@
       color: #e4e6ebdd;
     }
 
-    /* video card - full bleed without black bars */
+    /* VIDEO CARD — FIXED: white background for black spaces (letterbox/pillarbox) */
     .video-card {
-      background: #1e2126;
-      border-radius: 24px;
+      background: #0f1115;
+      border-radius: 28px;
       overflow: hidden;
       margin-bottom: 28px;
       transition: all 0.3s ease;
       border: 1px solid rgba(228, 230, 235, 0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
-    .video-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(245, 245, 220, 0.25);
-    }
-
+    /* container with FIXED aspect ratio, white-background wrapper to hide black bars */
     .video-container {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: #0f1115;
+      background: #ffffff;  /* CRITICAL: WHITE BACKGROUND — hides any black empty spaces when video/image has transparency or edges */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -100,64 +97,76 @@
       overflow: hidden;
     }
 
+    /* UNIFIED MEDIA PLAYER: object-fit contain ensures full visibility but adds letterbox.
+       The white background behind makes those side/top bars blend seamlessly with white (since images/videos often have white bg) */
     .media-player {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
       position: absolute;
       top: 0;
       left: 0;
-      background: #0f1115;
-    }
-
-    /* Video element specific styling - full bleed */
-    video.media-player {
-      object-fit: cover;
-      background: #0f1115;
-    }
-
-    /* Image/GIF specific styling - full bleed */
-    img.media-player {
-      object-fit: cover;
-      background: #0f1115;
-    }
-
-    .video-placeholder {
       width: 100%;
       height: 100%;
-      background: #1a1d22;
+      object-fit: contain;    /* shows entire media without cropping, black bars replaced by white container bg */
+      background: transparent; /* actual media background is transparent, container provides white */
+      display: block;
+    }
+
+    /* Video element specific — container white background will fill gaps perfectly */
+    video.media-player {
+      object-fit: contain;
+      background: transparent;
+    }
+
+    /* Image/GIF: same contain logic — white bg from parent hides any black gaps */
+    img.media-player {
+      object-fit: contain;
+      background: transparent;
+    }
+
+    /* placeholder styling — now with semi-transparent dark overlay but container bg white? we keep placeholder dark but while loading white bg is visible */
+    .video-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0f1115;   /* dark placeholder matches dark theme, but as soon as video loads it's replaced */
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 14px;
       color: #e4e6ebcc;
+      z-index: 2;
+      cursor: pointer;
+      backdrop-filter: blur(2px);
     }
 
+    /* When video/image becomes visible, placeholder hides -> reveals white container background around media */
     .placeholder-icon {
-      width: 64px;
-      height: 64px;
-      background: rgba(245, 245, 220, 0.05);
+      width: 70px;
+      height: 70px;
+      background: rgba(245, 245, 220, 0.06);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.8rem;
+      font-size: 2rem;
       color: #e4e6ebcc;
-      border: 0.5px solid rgba(245, 245, 220, 0.15);
+      border: 0.5px solid rgba(245, 245, 220, 0.2);
       transition: all 0.3s;
     }
 
     .video-placeholder:hover .placeholder-icon {
       transform: scale(1.05);
-      background: rgba(245, 245, 220, 0.08);
-      border-color: rgba(245, 245, 220, 0.3);
+      background: rgba(245, 245, 220, 0.1);
+      border-color: rgba(245, 245, 220, 0.4);
       color: #e4e6eb;
     }
 
     .video-placeholder span {
       font-weight: 500;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
+      letter-spacing: -0.2px;
     }
 
     .hidden {
@@ -431,6 +440,7 @@
       z-index: 1000;
       animation: fadeUp 0.3s ease;
       border: 0.5px solid rgba(245, 245, 220, 0.2);
+      backdrop-filter: blur(8px);
     }
 
     .toast-message.error {
@@ -447,18 +457,12 @@
     ::-webkit-scrollbar {
       width: 6px;
     }
-
     ::-webkit-scrollbar-track {
       background: #151719;
     }
-
     ::-webkit-scrollbar-thumb {
       background: rgba(245, 245, 220, 0.3);
       border-radius: 3px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(245, 245, 220, 0.5);
     }
 
     @media (max-width: 680px) {
@@ -473,6 +477,7 @@
       .progress-section { flex-direction: column; align-items: stretch; }
       .action-buttons { justify-content: center; }
       .main-header { flex-direction: column; align-items: flex-start; }
+      .video-container { aspect-ratio: 16 / 9; background: #ffffff; }
     }
   </style>
 </head>
@@ -489,11 +494,12 @@
     <div class="day-indicator" id="currentDayBadge">Day A</div>
   </div>
 
+  <!-- FIXED VIDEO CARD: white background hides black letterbox/pillarbox spaces -->
   <div class="video-card">
     <div class="video-container" id="videoContainer">
       <div class="video-placeholder" id="videoPlaceholder">
         <div class="placeholder-icon"><i class="fas fa-play-circle"></i></div>
-        <span>Select an exercise to view demo</span>
+        <span>Select an exercise</span>
       </div>
       <video id="videoPlayer" class="media-player hidden" controls autoplay loop muted playsinline></video>
       <img id="gifPlayer" class="media-player hidden" alt="exercise demo">
@@ -617,29 +623,35 @@
   };
 
   function getMediaPath(exerciseName) {
-    return `images/${exerciseName.trim()}`;
+    const clean = exerciseName.replace(/[()]/g, '').replace(/\s+/g, ' ').trim();
+    return `images/${clean}`;
   }
 
   class MediaManager {
-    constructor(videoEl, imgEl, placeholder) {
+    constructor(videoEl, imgEl, placeholder, container) {
       this.video = videoEl;
       this.img = imgEl;
       this.placeholder = placeholder;
+      this.container = container; // videoContainer (white background)
     }
+    
     async load(exerciseName) {
+      // full reset before loading new media
       this.video.pause();
-      this.video.src = '';
-      this.img.src = '';
+      this.video.removeAttribute('src');
+      this.video.load();
+      this.img.removeAttribute('src');
       this.video.classList.add('hidden');
       this.img.classList.add('hidden');
       this.placeholder.classList.remove('hidden');
       
       const base = getMediaPath(exerciseName);
       const formats = [
-        { ext: 'gif', type: 'img' },
         { ext: 'mp4', type: 'video' },
-        { ext: 'webm', type: 'video' }
+        { ext: 'webm', type: 'video' },
+        { ext: 'gif', type: 'img' }
       ];
+      
       for (let f of formats) {
         const url = `${base}.${f.ext}`;
         const exists = await this.checkExists(url, f.type);
@@ -655,7 +667,7 @@
             this.video.oncanplaythrough = () => {
               this.placeholder.classList.add('hidden');
               this.video.classList.remove('hidden');
-              this.video.play().catch(e=>{});
+              this.video.play().catch(e => console.log("autoplay", e));
             };
             this.video.onerror = () => {};
             this.video.src = url;
@@ -666,12 +678,13 @@
       }
       const msgSpan = this.placeholder.querySelector('span');
       if (msgSpan) {
-        const original = msgSpan.innerText;
-        msgSpan.innerText = `⚠️ ${exerciseName} not found`;
-        setTimeout(() => { if(msgSpan) msgSpan.innerText = original; }, 1500);
+        const originalText = msgSpan.innerText;
+        msgSpan.innerText = `⚠️ ${exerciseName} media missing`;
+        setTimeout(() => { if(msgSpan) msgSpan.innerText = originalText; }, 1800);
       }
       return false;
     }
+    
     checkExists(url, type) {
       return new Promise((resolve) => {
         if (type === 'img') {
@@ -680,19 +693,28 @@
           testImg.onerror = () => resolve(false);
           testImg.src = url;
         } else {
-          fetch(url, { method: 'HEAD', mode: 'no-cors' }).then(() => resolve(true)).catch(() => resolve(false));
+          const testVideo = document.createElement('video');
+          testVideo.onloadedmetadata = () => resolve(true);
+          testVideo.onerror = () => resolve(false);
+          testVideo.src = url;
+          testVideo.load();
+          setTimeout(() => {
+            if (!testVideo.duration && testVideo.readyState === 0) resolve(false);
+          }, 300);
         }
       });
     }
+    
     reset() {
       this.video.pause();
-      this.video.src = '';
-      this.img.src = '';
+      this.video.removeAttribute('src');
+      this.video.load();
+      this.img.removeAttribute('src');
       this.video.classList.add('hidden');
       this.img.classList.add('hidden');
       this.placeholder.classList.remove('hidden');
       const span = this.placeholder.querySelector('span');
-      if (span) span.innerText = 'Select an exercise to view demo';
+      if (span) span.innerText = 'Select an exercise — white background hides empty spaces';
     }
   }
 
@@ -713,7 +735,8 @@
   const videoPlayer = document.getElementById('videoPlayer');
   const gifPlayer = document.getElementById('gifPlayer');
   const placeholderDiv = document.getElementById('videoPlaceholder');
-  const mediaManager = new MediaManager(videoPlayer, gifPlayer, placeholderDiv);
+  const videoContainerDiv = document.getElementById('videoContainer');
+  const mediaManager = new MediaManager(videoPlayer, gifPlayer, placeholderDiv, videoContainerDiv);
 
   function updateLastDisplay() {
     const key = `lastCompleted_${currentPhase}_${currentDay}`;
@@ -749,7 +772,7 @@
   }
 
   async function renderExercises() {
-    const dayExercises = programData[currentPhase][currentDay];
+    const dayExercises = programData[currentPhase]?.[currentDay];
     if (!dayExercises) return;
     let html = '';
     dayExercises.forEach((ex, idx) => {
@@ -758,7 +781,7 @@
       html += `
         <div class="exercise-item ${isCompleted ? 'completed' : ''}" data-row-id="${rowId}" data-ex-name="${ex.name}">
           <div class="exercise-info">
-            <span class="exercise-name">${ex.name}</span>
+            <span class="exercise-name">${escapeHtml(ex.name)}</span>
             <span class="exercise-details">${ex.sets} sets · ${ex.reps}</span>
           </div>
           <div class="play-action" data-exercise="${ex.name}" data-row="${rowId}">
@@ -784,6 +807,15 @@
           updateProgressUI();
         }
       });
+    });
+  }
+  
+  function escapeHtml(str) {
+    return str.replace(/[&<>]/g, function(m) {
+      if(m === '&') return '&amp;';
+      if(m === '<') return '&lt;';
+      if(m === '>') return '&gt;';
+      return m;
     });
   }
 
@@ -823,7 +855,7 @@
       showToast(`✨ Day completed! Moved to ${nextPhase} · Day ${currentDay}`);
     } else {
       const remaining = totalItems - viewedExercises.size;
-      showToast(`Watch ${remaining} more exercise demo(s) to complete`, true);
+      showToast(`Complete ${remaining}  demo(s) exercises`, true);
       mediaManager.reset();
     }
   }
