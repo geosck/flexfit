@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
-  <title>J&G Home-Fit</title>
+  <title>J&G Home-Fit | Updated GIF Mapping</title>
   <!-- Google Fonts + Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;500;600;700&family=SF+Pro+Text:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -27,7 +27,6 @@
       padding: 24px;
     }
 
-    /* Container */
     .app-container {
       max-width: 1024px;
       width: 100%;
@@ -37,7 +36,6 @@
       border-radius: 48px;
     }
 
-    /* header */
     .main-header {
       display: flex;
       justify-content: space-between;
@@ -73,7 +71,6 @@
       color: #e4e6ebdd;
     }
 
-    /* VIDEO CARD — FIXED: white background for black spaces (letterbox/pillarbox) */
     .video-card {
       background: #0f1115;
       border-radius: 28px;
@@ -84,12 +81,11 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
-    /* container with FIXED aspect ratio, white-background wrapper to hide black bars */
     .video-container {
       position: relative;
       width: 100%;
       aspect-ratio: 16 / 9;
-      background: #ffffff;  /* CRITICAL: WHITE BACKGROUND — hides any black empty spaces when video/image has transparency or edges */
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -97,39 +93,34 @@
       overflow: hidden;
     }
 
-    /* UNIFIED MEDIA PLAYER: object-fit contain ensures full visibility but adds letterbox.
-       The white background behind makes those side/top bars blend seamlessly with white (since images/videos often have white bg) */
     .media-player {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      object-fit: contain;    /* shows entire media without cropping, black bars replaced by white container bg */
-      background: transparent; /* actual media background is transparent, container provides white */
+      object-fit: contain;
+      background: transparent;
       display: block;
     }
 
-    /* Video element specific — container white background will fill gaps perfectly */
     video.media-player {
       object-fit: contain;
       background: transparent;
     }
 
-    /* Image/GIF: same contain logic — white bg from parent hides any black gaps */
     img.media-player {
       object-fit: contain;
       background: transparent;
     }
 
-    /* placeholder styling — now with semi-transparent dark overlay but container bg white? we keep placeholder dark but while loading white bg is visible */
     .video-placeholder {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #0f1115;   /* dark placeholder matches dark theme, but as soon as video loads it's replaced */
+      background: #0f1115;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -141,7 +132,6 @@
       backdrop-filter: blur(2px);
     }
 
-    /* When video/image becomes visible, placeholder hides -> reveals white container background around media */
     .placeholder-icon {
       width: 70px;
       height: 70px;
@@ -173,7 +163,6 @@
       display: none !important;
     }
 
-    /* phase tabs */
     .phase-tabs {
       display: flex;
       gap: 8px;
@@ -209,7 +198,6 @@
       background: rgba(245, 245, 220, 0.08);
     }
 
-    /* day selector */
     .day-selector {
       display: flex;
       gap: 10px;
@@ -243,7 +231,6 @@
       background: rgba(245, 245, 220, 0.08);
     }
 
-    /* exercise grid */
     .exercises-grid {
       display: flex;
       flex-direction: column;
@@ -318,7 +305,6 @@
       border-color: rgba(245, 245, 220, 0.35);
     }
 
-    /* progress section */
     .progress-section {
       display: flex;
       align-items: center;
@@ -400,7 +386,6 @@
       transform: translateY(-1px);
     }
 
-    /* history card */
     .history-card {
       background: #1e2126;
       border-radius: 18px;
@@ -425,7 +410,6 @@
       margin-left: 6px;
     }
 
-    /* toast messages */
     .toast-message {
       position: fixed;
       bottom: 30px;
@@ -453,7 +437,6 @@
       to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
-    /* scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
     }
@@ -494,12 +477,11 @@
     <div class="day-indicator" id="currentDayBadge">Day A</div>
   </div>
 
-  <!-- FIXED VIDEO CARD: white background hides black letterbox/pillarbox spaces -->
   <div class="video-card">
     <div class="video-container" id="videoContainer">
       <div class="video-placeholder" id="videoPlaceholder">
         <div class="placeholder-icon"><i class="fas fa-play-circle"></i></div>
-        <span>Select an exercise</span>
+        <span>Select an exercise — updated GIFs ready</span>
       </div>
       <video id="videoPlayer" class="media-player hidden" controls autoplay loop muted playsinline></video>
       <img id="gifPlayer" class="media-player hidden" alt="exercise demo">
@@ -622,9 +604,60 @@
     }
   };
 
+  // ----- EXACT MAPPING for your GIF files (case-sensitive exact filenames) -----
+  const gifMapping = {
+    "Goblet Squat": "goblet-squat.gif",
+    "Dumbbell Floor Press": "dumbbell-floor-press.gif",
+    "Resistance Band Row": "resistance-band-row.gif",
+    "Dumbbell Romanian Deadlift": "dumbbell-romanian-deadlift.gif",
+    "Dumbbell Shoulder Press": "dumbbell-shoulder-press.gif",
+    "Plank": "plank.gif",
+    "Reverse Lunges": "reverse-lunges.gif",
+    "Push-ups": "push-ups.gif",
+    "One-Arm Dumbbell Row": "one-arm-dumbbell-row.gif",
+    "Glute Bridge": "glute-bridge.gif",
+    "Dumbbell Biceps Curl": "dumbbell-biceps-curl.gif",
+    "Dead Bug": "dead-bug.gif",
+    "Dumbbell Deadlift": "dumbbell-deadlift.gif",
+    "Resistance Band Chest Press": "resistance-band-chest-press.gif",
+    "Band Lat Pulldown": "band-lat-pulldown.gif",
+    "Dumbbell Lateral Raise": "dumbbell-lateral-raise.gif",
+    "Triceps Kickbacks": "triceps-kickbacks.gif",
+    "Russian Twist": "russian-twist.gif",
+    // additional variations for strength/hypertrophy (simplified names)
+    "Dumbbell Press": "dumbbell-floor-press.gif",      // mapped to floor press gif
+    "Band Row": "resistance-band-row.gif",
+    "Shoulder Press": "dumbbell-shoulder-press.gif",
+    "One-Arm Row": "one-arm-dumbbell-row.gif",
+    "Dumbbell Curl": "dumbbell-biceps-curl.gif",
+    "Lateral Raise": "dumbbell-lateral-raise.gif",
+    "Triceps Kickback": "triceps-kickbacks.gif",
+    // superset variants (remove parentheses)
+    "Goblet Squat (Superset 1)": "goblet-squat.gif",
+    "Dumbbell Press (Superset 1)": "dumbbell-floor-press.gif",
+    "Band Row (Superset 2)": "resistance-band-row.gif",
+    "Dumbbell Romanian Deadlift (Superset 2)": "dumbbell-romanian-deadlift.gif",
+    "Reverse Lunges (Superset 1)": "reverse-lunges.gif",
+    "Push-ups (Superset 1)": "push-ups.gif",
+    "Dumbbell Deadlift (Superset 1)": "dumbbell-deadlift.gif",
+    "Band Chest Press (Superset 1)": "resistance-band-chest-press.gif"
+  };
+
   function getMediaPath(exerciseName) {
-    const clean = exerciseName.replace(/[()]/g, '').replace(/\s+/g, ' ').trim();
-    return `images/${clean}`;
+    // Clean exercise name: trim and map to exact GIF filename
+    let cleanName = exerciseName.trim();
+    // If we have a direct mapping, use it
+    if (gifMapping[cleanName]) {
+      return `images/${gifMapping[cleanName]}`;
+    }
+    // Fallback: try to normalize by removing text in parentheses and mapping again
+    const noParenthesis = cleanName.replace(/\s*\([^)]*\)\s*/g, '').trim();
+    if (gifMapping[noParenthesis]) {
+      return `images/${gifMapping[noParenthesis]}`;
+    }
+    // Ultimate fallback: generate from name (kebab-case + .gif)
+    const kebab = cleanName.toLowerCase().replace(/[()]/g, '').replace(/\s+/g, '-');
+    return `images/${kebab}.gif`;
   }
 
   class MediaManager {
@@ -632,11 +665,11 @@
       this.video = videoEl;
       this.img = imgEl;
       this.placeholder = placeholder;
-      this.container = container; // videoContainer (white background)
+      this.container = container;
     }
     
     async load(exerciseName) {
-      // full reset before loading new media
+      // full reset
       this.video.pause();
       this.video.removeAttribute('src');
       this.video.load();
@@ -645,25 +678,31 @@
       this.img.classList.add('hidden');
       this.placeholder.classList.remove('hidden');
       
-      const base = getMediaPath(exerciseName);
-      const formats = [
-        { ext: 'mp4', type: 'video' },
-        { ext: 'webm', type: 'video' },
-        { ext: 'gif', type: 'img' }
-      ];
-      
-      for (let f of formats) {
-        const url = `${base}.${f.ext}`;
-        const exists = await this.checkExists(url, f.type);
-        if (exists) {
-          if (f.type === 'img') {
-            this.img.onload = () => {
-              this.placeholder.classList.add('hidden');
-              this.img.classList.remove('hidden');
-            };
-            this.img.onerror = () => {};
-            this.img.src = url;
-          } else {
+      // Build GIF path using our mapping
+      const gifUrl = getMediaPath(exerciseName);
+      // Try to load GIF first (since all assets are .gif as provided)
+      const exists = await this.checkImageExists(gifUrl);
+      if (exists) {
+        this.img.onload = () => {
+          this.placeholder.classList.add('hidden');
+          this.img.classList.remove('hidden');
+        };
+        this.img.onerror = () => {
+          this.showMissingMessage(exerciseName);
+        };
+        this.img.src = gifUrl;
+        return true;
+      } else {
+        // fallback: try video formats (mp4/webm) just in case
+        const base = gifUrl.replace(/\.gif$/, '');
+        const videoFormats = [
+          { ext: 'mp4', type: 'video' },
+          { ext: 'webm', type: 'video' }
+        ];
+        for (let f of videoFormats) {
+          const url = `${base}.${f.ext}`;
+          const vidExists = await this.checkVideoExists(url);
+          if (vidExists) {
             this.video.oncanplaythrough = () => {
               this.placeholder.classList.add('hidden');
               this.video.classList.remove('hidden');
@@ -672,37 +711,43 @@
             this.video.onerror = () => {};
             this.video.src = url;
             this.video.load();
+            return true;
           }
-          return true;
         }
+        this.showMissingMessage(exerciseName);
+        return false;
       }
+    }
+    
+    checkImageExists(url) {
+      return new Promise((resolve) => {
+        const testImg = new Image();
+        testImg.onload = () => resolve(true);
+        testImg.onerror = () => resolve(false);
+        testImg.src = url;
+      });
+    }
+    
+    checkVideoExists(url) {
+      return new Promise((resolve) => {
+        const testVideo = document.createElement('video');
+        testVideo.onloadedmetadata = () => resolve(true);
+        testVideo.onerror = () => resolve(false);
+        testVideo.src = url;
+        testVideo.load();
+        setTimeout(() => {
+          if (!testVideo.duration && testVideo.readyState === 0) resolve(false);
+        }, 300);
+      });
+    }
+    
+    showMissingMessage(exerciseName) {
       const msgSpan = this.placeholder.querySelector('span');
       if (msgSpan) {
         const originalText = msgSpan.innerText;
-        msgSpan.innerText = `⚠️ ${exerciseName} media missing`;
-        setTimeout(() => { if(msgSpan) msgSpan.innerText = originalText; }, 1800);
+        msgSpan.innerText = `⚠️ ${exerciseName} GIF not found`;
+        setTimeout(() => { if(msgSpan) msgSpan.innerText = originalText; }, 2000);
       }
-      return false;
-    }
-    
-    checkExists(url, type) {
-      return new Promise((resolve) => {
-        if (type === 'img') {
-          const testImg = new Image();
-          testImg.onload = () => resolve(true);
-          testImg.onerror = () => resolve(false);
-          testImg.src = url;
-        } else {
-          const testVideo = document.createElement('video');
-          testVideo.onloadedmetadata = () => resolve(true);
-          testVideo.onerror = () => resolve(false);
-          testVideo.src = url;
-          testVideo.load();
-          setTimeout(() => {
-            if (!testVideo.duration && testVideo.readyState === 0) resolve(false);
-          }, 300);
-        }
-      });
     }
     
     reset() {
@@ -714,7 +759,7 @@
       this.img.classList.add('hidden');
       this.placeholder.classList.remove('hidden');
       const span = this.placeholder.querySelector('span');
-      if (span) span.innerText = 'Select an exercise — white background hides empty spaces';
+      if (span) span.innerText = 'Select an exercise — updated GIFs ready';
     }
   }
 
@@ -855,7 +900,7 @@
       showToast(`✨ Day completed! Moved to ${nextPhase} · Day ${currentDay}`);
     } else {
       const remaining = totalItems - viewedExercises.size;
-      showToast(`Complete ${remaining}  demo(s) exercises`, true);
+      showToast(`Watch ${remaining} more exercise demo(s) to complete`, true);
       mediaManager.reset();
     }
   }
